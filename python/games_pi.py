@@ -811,8 +811,8 @@ def drawClock(color):
 
 def drawImage(filename):
     im = Image.open(filename)
-    for row in range(0,20):
-        for col in range(0,10):
+    for row in range(0,BOARDHEIGHT):
+        for col in range(0,BOARDWIDTH):
             r,g,b = im.getpixel((col,row))
             drawPixelRgb(col,row,r,g,b)
     updateScreen()
@@ -1040,8 +1040,8 @@ def removeCompleteLines(board):
     return numLinesRemoved
 
 def drawBoard(matrix):
-    for i in range(0,10):
-        for j in range(0,20):
+    for i in range(0,BOARDWIDTH):
+        for j in range(0,BOARDHEIGHT):
             drawPixel(i,j,matrix[i][j])
 
 def getBlankBoard():
