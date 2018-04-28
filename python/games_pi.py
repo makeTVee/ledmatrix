@@ -7,7 +7,7 @@
 # http://inventwithpython.com/pygame
 # Released under a "Simplified BSD" license
 
-import random, time, sys, socket, threading, queue, socketserver, os, pyowm
+import random, time, sys, socket, threading, queue, socketserver, os
 from PIL import Image
 
 # If Pi = False the script runs in simulation mode using pygame lib
@@ -19,14 +19,17 @@ if PI:
     import max7219.led as led
     from max7219.font import proportional, SINCLAIR_FONT, TINY_FONT, CP437_FONT
 
+# only modify this two values for size adaption!
+PIXEL_X=10
+PIXEL_Y=20
 
-SIZE=20;
+SIZE=PIXEL_Y
 FPS = 15
-WINDOWWIDTH = 200
-WINDOWHEIGHT = 400
 BOXSIZE = 20
-BOARDWIDTH = 10
-BOARDHEIGHT = 20
+WINDOWWIDTH = BOXSIZE * PIXEL_X
+WINDOWHEIGHT = BOXSIZE * PIXEL_Y
+BOARDWIDTH = PIXEL_X
+BOARDHEIGHT = PIXEL_Y
 BLANK = '.'
 MOVESIDEWAYSFREQ = 0.15
 MOVEDOWNFREQ = 0.15
@@ -224,8 +227,6 @@ QKEYUP=1
 myQueue = queue.Queue()
 mask = bytearray([1,2,4,8,16,32,64,128])
 
-owm = pyowm.OWM('81a8e406e1e5466fddb0c7bbfc979a6b')
-
 class qEvent:
    def __init__(self, key, type):
         self.key = key
@@ -277,7 +278,7 @@ def main():
     if not PI:
         pygame.init()
         FPSCLOCK = pygame.time.Clock()
-        DISPLAYSURF = pygame.display.set_mode((10*SIZE, 22*SIZE))
+        DISPLAYSURF = pygame.display.set_mode((PIXEL_X*SIZE, PIXEL_Y*SIZE))
         BASICFONT = pygame.font.Font('freesansbold.ttf', 18)
         BIGFONT = pygame.font.Font('freesansbold.ttf', 100)
         pygame.display.set_caption('Pi Games')
@@ -346,12 +347,12 @@ def runPongGame():
     up = 1
     left = 0
     right = 1
-    lowerbarx = 5
-    upperbarx = 5
+    lowerbarx = PIXEL_X//2
+    upperbarx = PIXEL_X//2
     score1 = 0
     score2 = 0
-    ballx = 5
-    bally = 10
+    ballx = PIXEL_X//2
+    bally = PIXEL_Y//2
     directiony = down
     directionx = left
     movingRightUpper = False
@@ -395,7 +396,7 @@ def runPongGame():
                 lowerbarx-=1;
             lastLowerMoveSidewaysTime = time.time()
         if (movingRightLower) and time.time() - lastLowerMoveSidewaysTime > MOVESIDEWAYSFREQ:
-            if lowerbarx <8:
+            if lowerbarx <PIXEL_X-2:
                 lowerbarx+=1;
             lastLowerMoveSidewaysTime = time.time()
         if (movingLeftUpper) and time.time() - lastUpperMoveSidewaysTime > MOVESIDEWAYSFREQ:
@@ -403,7 +404,7 @@ def runPongGame():
                 upperbarx-=1;
             lastUpperMoveSidewaysTime = time.time()
         if (movingRightUpper) and time.time() - lastUpperMoveSidewaysTime > MOVESIDEWAYSFREQ:
-            if upperbarx <8:
+            if upperbarx <PIXEL_X-2:
                 upperbarx+=1;
             lastUpperMoveSidewaysTime = time.time()
 
@@ -433,7 +434,7 @@ def runPongGame():
                     score1+=1
                     restart = True
         else:
-            if (bally<18):
+            if (bally<PIXEL_Y-2):
                 bally+=1
             else:
                 if (abs(ballx-lowerbarx)<2):
@@ -465,7 +466,7 @@ def runPongGame():
                     if(bally>2):
                         bally-=1
                 if(directiony == down):
-                    if(bally<18):
+                    if(bally<PIXEL_Y-2):
                         bally+=1
         else:
             if (ballx<9):
@@ -477,13 +478,13 @@ def runPongGame():
                     if(bally>3):
                         bally-=random.randint(0,2)
                 if(directiony == down):
-                    if(bally<17):
+                    if(bally<PIXEL_Y-3):
                         bally+=random.randint(0,2)
 
         clearScreen()
         drawBall(ballx,bally)
         drawBar(upperbarx,0)
-        drawBar(lowerbarx,19)
+        drawBar(lowerbarx,PIXEL_Y-1)
         twoscoreText(score1,score2)
         updateScreen()
 
@@ -493,8 +494,8 @@ def runPongGame():
 
         if restart:
             time.sleep(1)
-            ballx=5
-            bally=10
+            ballx=PIXEL_X//2
+            bally=PIXEL_Y//2
             if directiony==down:
                 directiony = up
             else:
