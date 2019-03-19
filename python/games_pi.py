@@ -469,7 +469,7 @@ def runPongGame():
                     if(bally<PIXEL_Y-2):
                         bally+=1
         else:
-            if (ballx<9):
+            if (ballx<PIXEL_X-1):
                 ballx+=random.randint(1,2)
             else:
                 directionx = left
