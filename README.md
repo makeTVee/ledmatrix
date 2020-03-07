@@ -1,6 +1,9 @@
 # LED Matrix Project
 
+Hackaday.io:
 https://hackaday.io/project/11064-raspberry-pi-retro-gaming-led-display
 
-The Raspberry Pi A+ and the Arduino Pro Mini are connected via UART (baudrate of 500 kbit/s). There is a simple command set for controlling the LEDs and setting some parameters. The Arduino provides a bootscreen (raspberry) during the bootprocess of the Pi. 
+Instructables:
+https://www.instructables.com/id/Wooden-LED-Gaming-Display-Powered-by-Raspberry-Pi-/
 
+Original a Raspberry Pi A+ and an Arduino Pro Mini were connected via UART (baudrate of 500 kbit/s). Updated 2020 to a signle Raspberry Pi Zero W. Please check out the description on Hackaday/Instructables. Detailed description of the code will follow soon.
