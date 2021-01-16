@@ -1084,7 +1084,7 @@ def drawTetrisMAX7219(piece,offsetx,offsety,draw1):
 def drawScorePixel(x,y,on,draw):
     if PI:
         draw.point((31-x,y), fill= "white")
-        time.sleep(.01)
+        #time.sleep(.01)
     else:
         pygame.draw.rect(DISPLAYSURF, COLORS[2], (64-2*x, 410+2*y,2,2))
 
